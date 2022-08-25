@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3'
 
 services:
   postgres:
@@ -27,7 +27,7 @@ services:
        - pgadmin:/var/lib/pgadmin
 
     ports:
-      - "80:80"
+      - "98:98"
     networks:
       - postgres
     restart: unless-stopped
