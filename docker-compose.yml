@@ -1,41 +1,30 @@
 version: '3'
 
 services:
-  postgres:
-    container_name: postgres_container
+  postgres-compose:
     image: postgres
     environment:
-      POSTGRES_USER: fernandofitilan@hotmail.com
-      POSTGRES_PASSWORD: 123456
-      PGDATA: /data/postgres
-    volumes:
-       - postgres:/data/postgres
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_PASSWORD: "postgres"
     ports:
       - "5432:5432"
+    volumes:
+      - /home/duducp/PostgreSQL:/var/lib/postgresql/data
     networks:
-      - postgres
-    restart: unless-stopped
-  
-  pgadmin:
-    container_name: pgadmin_container
+      - postgres-compose-network
+      
+  pgadmin-compose:
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: fernandofitilan@hotmail.com
-      PGADMIN_DEFAULT_PASSWORD: root
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-       - pgadmin:/var/lib/pgadmin
-
+      PGADMIN_DEFAULT_EMAIL: "postgres@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
     ports:
-      - "98:98"
+      - "15432:80"
+    depends_on:
+      - postgres-compose
     networks:
-      - postgres
-    restart: unless-stopped
+      - postgres-compose-network
 
-networks:
-  postgres:
+networks: 
+  postgres-compose-network:
     driver: bridge
-
-volumes:
-    postgres:
-    pgadmin:
